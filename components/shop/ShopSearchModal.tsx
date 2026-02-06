@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { products } from "@/data/products";
+import { products } from "@/data/despensaNatural";
 
 interface ShopSearchModalProps {
   isOpen: boolean;
@@ -212,7 +212,7 @@ export function ShopSearchModal({ isOpen, onClose }: ShopSearchModalProps) {
                     return (
                       <Link
                         key={product.id}
-                        href={`/shop/${productSlug}`}
+                        href={`/producto/${productSlug}`}
                         onClick={handleClose}
                         className="flex items-center gap-4 p-2 rounded-xl hover:bg-gray-50 transition-colors"
                       >

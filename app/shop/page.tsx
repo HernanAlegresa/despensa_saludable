@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getAllProducts } from "@/data/products";
+import { getAllProducts } from "@/data/despensaNatural";
 import { filterProducts, sortProducts } from "@/lib/shop/filters";
 import { parseFiltersFromSearchParams } from "@/lib/shop/normalize";
 import { FilterPanel } from "@/components/shop/FilterPanel";

@@ -26,12 +26,12 @@ export function CompleteTheLook({
 
   return (
     <section className="mt-16 pt-16 border-t">
-      <h2 className="text-2xl font-bold mb-8">Complete the Look</h2>
+      <h2 className="text-2xl font-bold mb-8">También te puede interesar</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {relatedProducts.map((product) => (
             <Link
               key={product.id}
-              href={`/shop/${product.slug}`}
+              href={`/producto/${product.slug}`}
               className={cn(
                 "group block",
                 "focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded-lg"

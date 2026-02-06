@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { collections } from "@/data/collections";
-import { getProductsByCollection } from "@/data/products";
+import { collections } from "@/data/despensaNatural";
+import { getProductsByCollection } from "@/data/despensaNatural";
 import { useState, useEffect } from "react";
 
 // ============================================
@@ -49,7 +49,7 @@ function CollectionCard({
       transition={{ duration: 0.4, delay: index * 0.08 }}
     >
       <Link
-        href={`/shop?collection=${collection.slug}`}
+        href={`/categoria/${collection.slug}`}
         className="group block"
       >
         <div className="relative overflow-hidden rounded-xl bg-gray-100 aspect-[3/4]">

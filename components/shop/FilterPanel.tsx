@@ -3,14 +3,14 @@
 import { useMemo } from "react";
 import { useShopFilters } from "@/hooks/useShopFilters";
 import { getAvailableFilters } from "@/lib/shop/filters";
-import { getAllProducts } from "@/data/products";
+import { getAllProducts } from "@/data/despensaNatural";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Size } from "@/lib/types/product";
 
-const SIZES: Size[] = ["S", "M", "L", "XL"];
+const SIZES: Size[] = ["S", "M", "L", "XL", "One Size"];
 
 export function FilterPanel() {
   const {
@@ -34,7 +34,7 @@ export function FilterPanel() {
   return (
     <aside className="w-full md:w-64 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Filters</h2>
+        <h2 className="text-lg font-semibold">Filtros</h2>
         {hasFilters && (
           <Button
             variant="ghost"
@@ -42,14 +42,14 @@ export function FilterPanel() {
             onClick={clearFilters}
             className="text-sm"
           >
-            Clear all
+            Limpiar
           </Button>
         )}
       </div>
 
       {/* Category Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-3">Category</h3>
+        <h3 className="text-sm font-medium mb-3">Categoría</h3>
         <div className="space-y-2">
           {availableFilters.categories.map((categorySlug) => {
             const isChecked = filters.category?.includes(categorySlug) || false;
@@ -64,7 +64,7 @@ export function FilterPanel() {
                 <Checkbox
                   checked={isChecked}
                   onChange={() => toggleCategory(categorySlug)}
-                  aria-label={`Filter by ${categorySlug}`}
+                  aria-label={`Filtrar por ${categorySlug}`}
                 />
                 <span className="text-sm capitalize">
                   {categorySlug.replace(/-/g, " ")}
@@ -77,7 +77,7 @@ export function FilterPanel() {
 
       {/* Size Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-3">Size</h3>
+        <h3 className="text-sm font-medium mb-3">Tamaño</h3>
         <div className="flex flex-wrap gap-2">
           {sizes.map((size) => {
             const isChecked = filters.size?.includes(size) || false;
@@ -105,7 +105,7 @@ export function FilterPanel() {
 
       {/* Color Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-3">Color</h3>
+        <h3 className="text-sm font-medium mb-3">Variante</h3>
         <div className="space-y-2">
           {availableFilters.colors.map((colorName) => {
             const isChecked = filters.color?.includes(colorName) || false;
@@ -131,14 +131,14 @@ export function FilterPanel() {
 
       {/* Price Range Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-3">Price</h3>
+        <h3 className="text-sm font-medium mb-3">Precio</h3>
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Input
               type="number"
-              placeholder="Min"
+              placeholder="Mín"
               min="0"
-              step="0.01"
+              step="1"
               value={filters.minPrice || ""}
               onChange={(e) => {
                 const value = e.target.value
@@ -147,14 +147,14 @@ export function FilterPanel() {
                 setPriceRange(value, filters.maxPrice);
               }}
               className="w-full"
-              aria-label="Minimum price"
+              aria-label="Precio mínimo"
             />
-            <span className="text-sm text-gray-500">to</span>
+            <span className="text-sm text-gray-500">a</span>
             <Input
               type="number"
-              placeholder="Max"
+              placeholder="Máx"
               min="0"
-              step="0.01"
+              step="1"
               value={filters.maxPrice || ""}
               onChange={(e) => {
                 const value = e.target.value
@@ -163,12 +163,12 @@ export function FilterPanel() {
                 setPriceRange(filters.minPrice, value);
               }}
               className="w-full"
-              aria-label="Maximum price"
+              aria-label="Precio máximo"
             />
           </div>
           <p className="text-xs text-gray-500">
-            ${availableFilters.priceRange.min.toFixed(2)} - $
-            {availableFilters.priceRange.max.toFixed(2)}
+            ${availableFilters.priceRange.min.toFixed(0)} - $
+            {availableFilters.priceRange.max.toFixed(0)}
           </p>
         </div>
       </div>

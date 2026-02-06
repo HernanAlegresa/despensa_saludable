@@ -18,7 +18,7 @@ export function CartWidget() {
           "hover:opacity-70",
           "flex items-center justify-center"
         )}
-        aria-label="Shopping cart"
+        aria-label="Tu pedido"
       >
         <ShoppingBag className="h-6 w-6" />
         {cart.itemCount > 0 && (

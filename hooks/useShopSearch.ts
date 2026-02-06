@@ -40,7 +40,7 @@ export function useShopSearch() {
         params.delete("page");
 
         const queryString = params.toString();
-        router.push(queryString ? `/shop?${queryString}` : "/shop");
+        router.push(queryString ? `/catalogo?${queryString}` : "/catalogo");
       }, SEARCH_DEBOUNCE_MS);
 
       return () => clearTimeout(timeoutId);
@@ -55,7 +55,7 @@ export function useShopSearch() {
     params.delete("page");
 
     const queryString = params.toString();
-    router.push(queryString ? `/shop?${queryString}` : "/shop");
+    router.push(queryString ? `/catalogo?${queryString}` : "/catalogo");
   }, [router, searchParams]);
 
   return {

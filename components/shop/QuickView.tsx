@@ -153,7 +153,7 @@ export function QuickView({ product, open, onOpenChange }: QuickViewProps) {
                 </p>
               )}
               <Link
-                href={`/shop/${product.slug}`}
+                href={`/producto/${product.slug}`}
                 onClick={() => onOpenChange(false)}
                 className="block text-center text-sm text-gray-500 underline-offset-2 transition-colors hover:text-gray-900 hover:underline"
               >

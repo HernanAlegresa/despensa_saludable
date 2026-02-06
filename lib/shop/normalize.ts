@@ -16,7 +16,7 @@ export function parseFiltersFromSearchParams(
   if (size) {
     const sizes = size.split(",").filter(Boolean) as Size[];
     // Validate sizes
-    const validSizes: Size[] = ["S", "M", "L", "XL"];
+    const validSizes: Size[] = ["XS", "S", "M", "L", "XL", "One Size"];
     filters.size = sizes.filter((s) => validSizes.includes(s));
   }
 

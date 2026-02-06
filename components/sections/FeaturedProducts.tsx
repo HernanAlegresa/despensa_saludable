@@ -1,4 +1,4 @@
-import { getFeaturedProducts } from "@/data/products";
+import { getFeaturedProducts } from "@/data/despensaNatural";
 import { ProductCard } from "@/components/shop/ProductCard";
 
 // ============================================

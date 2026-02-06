@@ -21,7 +21,7 @@ export function useShopSort() {
     }
 
     const queryString = params.toString();
-    router.push(queryString ? `/shop?${queryString}` : "/shop");
+    router.push(queryString ? `/catalogo?${queryString}` : "/catalogo");
   };
 
   return {

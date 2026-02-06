@@ -6,7 +6,7 @@ import { BrandStory } from "@/components/sections/BrandStory";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Inicio",
   description: siteConfig.description,
 };
 

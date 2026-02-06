@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useCallback, useState } from "react";
 import { createPortal } from "react-dom";
+import { siteConfig } from "@/config/site";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -16,6 +17,16 @@ interface CartDrawerProps {
 }
 
 const FREE_SHIPPING_THRESHOLD = 100;
+
+function buildWhatsAppMessage(cart: { items: { product: { name: string; price: number }; size: string; color: { name: string }; quantity: number }[]; total: number }): string {
+  const lines = ["Hola! Me gustaría hacer un pedido:", ""];
+  cart.items.forEach((item) => {
+    const lineTotal = item.product.price * item.quantity;
+    lines.push(`- ${item.product.name} (${item.size} · ${item.color.name}) x ${item.quantity} — $${lineTotal}`);
+  });
+  lines.push("", `Total: $${cart.total}`);
+  return lines.join("\n");
+}
 
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { cart, updateQuantity, removeFromCart } = useCart();
@@ -128,15 +139,15 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             style={{ backgroundColor: "#ffffff" }}
             role="dialog"
             aria-modal="true"
-            aria-label="Shopping cart"
+            aria-label="Tu pedido"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
               <div>
-                <h2 className="text-xl font-bold">Shopping Cart</h2>
+                <h2 className="text-xl font-bold">Tu pedido</h2>
                 {cart.items.length > 0 && (
                   <p className="text-sm text-gray-500 mt-0.5">
-                    {cart.items.length} {cart.items.length === 1 ? 'item' : 'items'}
+                    {cart.items.length} {cart.items.length === 1 ? "producto" : "productos"}
                   </p>
                 )}
               </div>
@@ -147,7 +158,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   "p-2 rounded-full hover:bg-gray-100 transition-colors",
                   "focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
                 )}
-                aria-label="Close cart"
+                aria-label="Cerrar pedido"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -159,11 +170,11 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <div className="mb-1.5 text-xs text-center">
                   {amountToFreeShipping > 0 ? (
                     <span className="text-gray-600">
-                      Add <span className="font-semibold text-black">${amountToFreeShipping.toFixed(2)}</span> more for free shipping
+                      Sumá <span className="font-semibold text-black">${amountToFreeShipping.toFixed(0)}</span> más para envío sin costo
                     </span>
                   ) : (
                     <span className="font-medium text-green-600">
-                      You qualify for free shipping!
+                      ¡Llegaste al envío sin costo!
                     </span>
                   )}
                 </div>
@@ -190,13 +201,13 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-center px-6 bg-white">
                   <ShoppingBag className="h-20 w-20 text-gray-200 mb-6" />
                   <p className="text-xl font-semibold text-gray-900 mb-2">
-                    Your cart is empty
+                    Tu pedido está vacío
                   </p>
                   <p className="text-gray-500 mb-8">
-                    Add some products to get started
+                    Agregá productos para empezar
                   </p>
-                  <Link href="/shop" onClick={onClose}>
-                    <Button size="lg">Continue Shopping</Button>
+                  <Link href="/catalogo" onClick={onClose}>
+                    <Button size="lg">Ver catálogo</Button>
                   </Link>
                 </div>
               ) : (
@@ -214,7 +225,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                         <div className="flex gap-4">
                           {/* Product Image */}
                           <Link
-                            href={`/product/${item.product.slug}`}
+                            href={`/producto/${item.product.slug}`}
                             onClick={onClose}
                             className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 border border-gray-200"
                           >
@@ -232,7 +243,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             {/* Name and Remove */}
                             <div className="flex items-start justify-between gap-2">
                               <Link
-                                href={`/product/${item.product.slug}`}
+                                href={`/producto/${item.product.slug}`}
                                 onClick={onClose}
                                 className="hover:underline"
                               >
@@ -246,7 +257,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                                   "p-1 -m-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors",
                                   "focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1"
                                 )}
-                                aria-label={`Remove ${item.product.name} from cart`}
+                                aria-label={`Quitar ${item.product.name} del pedido`}
                               >
                                 <X className="h-4 w-4" />
                               </button>
@@ -269,7 +280,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                                     "p-1.5 hover:bg-gray-100 transition-colors rounded-l-md",
                                     "focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black"
                                   )}
-                                  aria-label="Decrease quantity"
+                                  aria-label="Menos cantidad"
                                 >
                                   <Minus className="h-3.5 w-3.5" />
                                 </button>
@@ -284,7 +295,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                                     "p-1.5 hover:bg-gray-100 transition-colors rounded-r-md",
                                     "focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black"
                                   )}
-                                  aria-label="Increase quantity"
+                                  aria-label="Más cantidad"
                                 >
                                   <Plus className="h-3.5 w-3.5" />
                                 </button>
@@ -292,7 +303,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
                               {/* Item Total */}
                               <p className="text-sm font-semibold text-gray-900">
-                                ${itemTotal.toFixed(2)}
+                                ${itemTotal.toFixed(0)}
                               </p>
                             </div>
                           </div>
@@ -310,16 +321,16 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 {/* Summary Lines */}
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Subtotal ({cart.items.length} {cart.items.length === 1 ? 'item' : 'items'})</span>
-                    <span className="font-medium text-gray-900">${cart.total.toFixed(2)}</span>
+                    <span className="text-gray-600">Subtotal ({cart.items.length} {cart.items.length === 1 ? "producto" : "productos"})</span>
+                    <span className="font-medium text-gray-900">${cart.total.toFixed(0)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Shipping</span>
+                    <span className="text-gray-600">Envío</span>
                     <span className="font-medium">
                       {amountToFreeShipping <= 0 ? (
-                        <span className="text-green-600">Free</span>
+                        <span className="text-green-600">Sin costo</span>
                       ) : (
-                        <span className="text-gray-500">Calculated at checkout</span>
+                        <span className="text-gray-500">Consultar</span>
                       )}
                     </span>
                   </div>
@@ -328,22 +339,30 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 {/* Total */}
                 <div className="flex items-center justify-between border-t border-gray-200 pt-3">
                   <span className="text-base font-semibold text-gray-900">Total</span>
-                  <span className="text-xl font-bold text-gray-900">${cart.total.toFixed(2)}</span>
+                  <span className="text-xl font-bold text-gray-900">${cart.total.toFixed(0)}</span>
                 </div>
 
                 {/* Action Buttons */}
                 <div className="space-y-2 pt-1">
-                  <Link href="/checkout" onClick={onClose} className="block">
-                    <Button className="w-full h-11 text-base font-semibold" size="lg">
-                      Checkout
+                  {siteConfig.social.whatsapp ? (
+                    <Button className="w-full h-11 text-base font-semibold" size="lg" asChild>
+                      <a
+                        href={`${siteConfig.social.whatsapp}?text=${encodeURIComponent(buildWhatsAppMessage(cart))}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={onClose}
+                      >
+                        Enviar por WhatsApp
+                      </a>
                     </Button>
-                  </Link>
-                  <p className="text-center text-xs text-gray-400">
-                    Preview mode — checkout coming soon
-                  </p>
-                  <Link href="/shop" onClick={onClose} className="block">
+                  ) : (
+                    <Button className="w-full h-11 text-base font-semibold" size="lg" disabled>
+                      Enviar por WhatsApp (configurar número)
+                    </Button>
+                  )}
+                  <Link href="/catalogo" onClick={onClose} className="block">
                     <Button variant="outline" className="w-full h-10">
-                      Continue Shopping
+                      Seguir comprando
                     </Button>
                   </Link>
                 </div>

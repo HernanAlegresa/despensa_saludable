@@ -47,7 +47,7 @@ export function useShopFilters() {
         searchParams.get("sort") || undefined
       );
 
-      router.push(`/shop?${params.toString()}`);
+      router.push(`/catalogo?${params.toString()}`);
     },
     [filters, router, searchParams]
   );
@@ -107,7 +107,7 @@ export function useShopFilters() {
     if (sort) params.set("sort", sort);
 
     const queryString = params.toString();
-    router.push(queryString ? `/shop?${queryString}` : "/shop");
+    router.push(queryString ? `/catalogo?${queryString}` : "/catalogo");
   }, [router, searchParams]);
 
   const removeFilter = useCallback(

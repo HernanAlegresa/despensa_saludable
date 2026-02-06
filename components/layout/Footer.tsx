@@ -17,7 +17,7 @@ export function Footer() {
           {/* Shop Links — only shown when store feature is enabled */}
           {siteConfig.features.store && (
             <div>
-              <h3 className="font-semibold mb-4">Shop</h3>
+              <h3 className="font-semibold mb-4">Catálogo</h3>
               <ul className="space-y-2">
                 {footerLinks.shop.map((link) => (
                   <li key={link.href}>
@@ -39,7 +39,7 @@ export function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-semibold mb-4">Company</h3>
+            <h3 className="font-semibold mb-4">Empresa</h3>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
@@ -63,7 +63,7 @@ export function Footer() {
             <div>
               <h3 className="font-semibold mb-4">Newsletter</h3>
               <p className="text-sm text-gray-600 mb-4">
-                Subscribe to get updates on new products and special offers.
+                Suscribite para novedades y ofertas.
               </p>
               <WaitlistForm variant="inline" />
             </div>
@@ -72,7 +72,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-          <p>&copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {siteConfig.name}. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

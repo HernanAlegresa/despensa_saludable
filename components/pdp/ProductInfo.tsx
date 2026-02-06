@@ -33,7 +33,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
   const handleAddToCart = useCallback(() => {
     if (!selectedSize || !selectedColor) {
-      toast.error("Please select a size and color");
+      toast.error("Elegí tamaño y variante");
       return;
     }
     if (!product.inStock) {
@@ -51,21 +51,21 @@ export function ProductInfo({ product }: ProductInfoProps) {
         <h1 className="text-3xl md:text-4xl font-bold mb-2">{product.name}</h1>
         <div className="flex items-center gap-3 mb-4">
           <span className="text-3xl font-semibold">
-            ${product.price.toFixed(2)}
+            ${product.price.toFixed(0)}
           </span>
           {hasDiscount && (
             <>
               <span className="text-xl text-gray-500 line-through">
-                ${product.compareAtPrice!.toFixed(2)}
+                ${product.compareAtPrice!.toFixed(0)}
               </span>
               <span className="text-sm font-medium text-red-600">
-                Save ${(product.compareAtPrice! - product.price).toFixed(2)}
+                Ahorrás ${(product.compareAtPrice! - product.price).toFixed(0)}
               </span>
             </>
           )}
         </div>
         {!product.inStock && (
-          <p className="text-sm font-medium text-red-600">Out of Stock</p>
+          <p className="text-sm font-medium text-red-600">Sin stock</p>
         )}
       </div>
 
@@ -98,7 +98,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                     : "border-gray-300 hover:border-gray-900",
                   !product.inStock && "opacity-50 cursor-not-allowed"
                 )}
-                aria-label={`Select size ${size}`}
+                aria-label={`Elegir tamaño ${size}`}
                 aria-pressed={isSelected}
               >
                 {size}
@@ -131,7 +131,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                     !product.inStock && "opacity-50 cursor-not-allowed"
                   )}
                   style={{ backgroundColor: color.hex }}
-                  aria-label={`Select color ${color.name}`}
+                  aria-label={`Elegir variante ${color.name}`}
                   aria-pressed={isSelected}
                 >
                   <span className="sr-only">{color.name}</span>
@@ -170,13 +170,13 @@ export function ProductInfo({ product }: ProductInfoProps) {
       {/* Product Details */}
       <div className="pt-6 border-t space-y-2 text-sm">
         <div className="flex">
-          <span className="font-medium w-24">Category:</span>
+          <span className="font-medium w-24">Categoría:</span>
           <span className="text-gray-600 capitalize">
             {product.category.name}
           </span>
         </div>
         <div className="flex">
-          <span className="font-medium w-24">SKU:</span>
+          <span className="font-medium w-24">Código:</span>
           <span className="text-gray-600">{product.id}</span>
         </div>
       </div>

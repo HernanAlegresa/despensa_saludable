@@ -18,7 +18,7 @@ export function FilterChips() {
     filters.category?.forEach((cat) => {
       chipArray.push({
         type: "category",
-        label: `Category: ${cat.replace(/-/g, " ")}`,
+        label: `Categoría: ${cat.replace(/-/g, " ")}`,
         value: cat,
       });
     });
@@ -27,7 +27,7 @@ export function FilterChips() {
     filters.size?.forEach((size) => {
       chipArray.push({
         type: "size",
-        label: `Size: ${size}`,
+        label: `Tamaño: ${size}`,
         value: size,
       });
     });
@@ -45,7 +45,7 @@ export function FilterChips() {
     if (filters.minPrice !== undefined) {
       chipArray.push({
         type: "minPrice",
-        label: `Min: $${filters.minPrice.toFixed(2)}`,
+        label: `Mín: $${filters.minPrice.toFixed(0)}`,
         value: filters.minPrice.toString(),
       });
     }
@@ -75,7 +75,7 @@ export function FilterChips() {
             "hover:bg-gray-200 transition-colors",
             "focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
           )}
-          aria-label={`Remove ${chip.label} filter`}
+          aria-label={`Quitar filtro ${chip.label}`}
         >
           <span>{chip.label}</span>
           <X className="h-3 w-3" />

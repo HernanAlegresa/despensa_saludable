@@ -21,7 +21,7 @@ export function MobileFilterTrigger({ resultCount }: MobileFilterTriggerProps) {
         className="md:hidden flex items-center gap-2"
       >
         <SlidersHorizontal className="h-4 w-4" />
-        Filters
+        Filtros
       </Button>
 
       <MobileFilterDrawer

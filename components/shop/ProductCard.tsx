@@ -47,7 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link
-        href={`/shop/${product.slug}`}
+        href={`/producto/${product.slug}`}
         className="group block"
       >
         <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-100 mb-3">
@@ -73,7 +73,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {!product.inStock && (
             <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center">
               <span className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
-                Out of Stock
+                Sin stock
               </span>
             </div>
           )}
@@ -112,7 +112,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
             {hasDiscount && (
               <span className="text-xs text-gray-500 line-through">
-                ${product.compareAtPrice!.toFixed(2)}
+                ${product.compareAtPrice!.toFixed(0)}
               </span>
             )}
           </div>

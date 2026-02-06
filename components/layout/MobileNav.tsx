@@ -20,8 +20,8 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
   // Check if a nav link is active
   const isLinkActive = (href: string) => {
-    if (href === "/shop") {
-      return pathname === "/shop" || pathname.startsWith("/shop/");
+    if (href === "/catalogo") {
+      return pathname === "/catalogo" || pathname.startsWith("/categoria/");
     }
     return pathname === href || pathname.startsWith(href + "/");
   };

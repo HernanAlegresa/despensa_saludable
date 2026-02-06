@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 // ============================================
 // BRAND STORY SECTION — Edit copy for your brand
@@ -30,7 +31,7 @@ export function BrandStory() {
             className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300"
           >
             <div className="flex h-full items-center justify-center text-gray-400">
-              <span className="text-sm">Replace with lifestyle image</span>
+              <span className="text-sm">Imagen de estilo de vida</span>
             </div>
           </motion.div>
 
@@ -43,7 +44,7 @@ export function BrandStory() {
               transition={{ duration: 0.5 }}
               className="mb-3 text-sm font-medium uppercase tracking-widest text-gray-500"
             >
-              Our Philosophy
+              Nuestra filosofía
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -52,9 +53,9 @@ export function BrandStory() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mb-6 text-3xl font-bold tracking-tight sm:text-4xl"
             >
-              Less noise.
+              Menos ruido.
               <br />
-              More substance.
+              Más sustancia.
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -63,9 +64,8 @@ export function BrandStory() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className="mb-4 text-lg leading-relaxed text-gray-600"
             >
-              We believe the best products don&apos;t need to shout. Every
-              detail is designed to be purposeful, durable, and effortlessly
-              functional.
+              Creemos que los mejores productos no necesitan gritar. Ingredientes
+              simples, sin ultraprocesados, con el cuidado que se nota.
             </motion.p>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -74,22 +74,34 @@ export function BrandStory() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mb-8 text-lg leading-relaxed text-gray-600"
             >
-              Quality materials, clean design, and a commitment to craft
-              that you can feel from the first interaction.
+              Materia prima de calidad, procesos transparentes y un compromiso
+              con lo natural que se siente desde el primer bocado.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.25 }}
+              className="flex flex-wrap gap-4"
             >
               <Link
-                href="/about"
+                href="/contacto"
                 className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-gray-600"
               >
-                Read Our Story
+                Contacto
                 <ArrowRight className="h-4 w-4" />
               </Link>
+              {siteConfig.social.whatsapp && (
+                <a
+                  href={siteConfig.social.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-gray-600"
+                >
+                  WhatsApp
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              )}
             </motion.div>
           </div>
         </div>

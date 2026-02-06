@@ -4,8 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { products } from "@/data/products";
-import { collections } from "@/data/collections";
+import { products } from "@/data/despensaNatural";
+import { collections } from "@/data/despensaNatural";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -16,10 +16,9 @@ type SearchCategory = "all" | "products" | "collections" | "pages";
 
 // Pages that can be searched
 const pages = [
-  { name: "Shop", href: "/shop", description: "Browse all products" },
-  { name: "Collections", href: "/collections", description: "View our collections" },
-  { name: "About Us", href: "/about", description: "Learn more about us" },
-  { name: "Contact", href: "/contact", description: "Get in touch with us" },
+  { name: "Catálogo", href: "/catalogo", description: "Ver todos los productos" },
+  { name: "Envíos", href: "/envios", description: "Información de envíos" },
+  { name: "Contacto", href: "/contacto", description: "Escribinos" },
 ];
 
 export function SearchModal({ isOpen, onClose }: SearchModalProps) {
@@ -279,7 +278,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         return (
                           <Link
                             key={product.id}
-                            href={`/shop/${productSlug}`}
+                            href={`/producto/${productSlug}`}
                             onClick={handleClose}
                             className="flex items-center gap-4 p-2 rounded-xl hover:bg-gray-50 transition-colors"
                           >
@@ -317,7 +316,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     </div>
                     {filteredProducts.length > 5 && query && (
                       <Link
-                        href={`/shop?search=${encodeURIComponent(query)}`}
+                        href={`/catalogo?q=${encodeURIComponent(query)}`}
                         onClick={handleClose}
                         className="block text-center text-sm text-black font-medium mt-3 hover:underline"
                       >
