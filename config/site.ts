@@ -60,7 +60,7 @@ export const siteConfig = {
   locale: "es_UY",
 
   // ── Announcement Bar ───────────────────────────
-  announcement: "Envíos en Montevideo y alrededores. Consultá por tu pedido.",
+  announcement: "", // vacío = no se muestra la barra (antes: "Envíos en Montevideo...")
 
   // ── Feature Flags ──────────────────────────────
   features: {
