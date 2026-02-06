@@ -34,6 +34,7 @@ export const siteConfig = {
     { href: "/catalogo", label: "Catálogo" },
     { href: "/envios", label: "Envíos" },
     { href: "/contacto", label: "Contacto" },
+    { href: "/quienes-somos", label: "Quiénes somos" },
   ],
 
   footerNav: {
@@ -41,6 +42,7 @@ export const siteConfig = {
     company: [
       { href: "/envios", label: "Envíos" },
       { href: "/contacto", label: "Contacto" },
+      { href: "/quienes-somos", label: "Quiénes somos" },
     ],
   },
 

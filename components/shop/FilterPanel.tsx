@@ -13,8 +13,6 @@ export function FilterPanel() {
   const {
     filters,
     toggleCategory,
-    toggleSize,
-    toggleColor,
     setPriceRange,
     clearFilters,
     hasFilters,
@@ -25,8 +23,6 @@ export function FilterPanel() {
     () => getAvailableFilters(allProducts),
     [allProducts]
   );
-
-  const sizes = availableFilters.sizes;
 
   return (
     <aside className="w-full md:w-64 space-y-6">
@@ -66,60 +62,6 @@ export function FilterPanel() {
                 <span className="text-sm capitalize">
                   {categorySlug.replace(/-/g, " ")}
                 </span>
-              </label>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Size Filter */}
-      <div>
-        <h3 className="text-sm font-medium mb-3">Tamaño</h3>
-        <div className="flex flex-wrap gap-2">
-          {sizes.map((size) => {
-            const isChecked = filters.size?.includes(size) || false;
-            return (
-              <label
-                key={size}
-                className={cn(
-                  "flex items-center justify-center w-10 h-10 border rounded-md cursor-pointer",
-                  "hover:border-gray-900 transition-colors",
-                  isChecked && "border-black bg-black text-white"
-                )}
-              >
-                <Checkbox
-                  checked={isChecked}
-                  onChange={() => toggleSize(size)}
-                  className="sr-only"
-                  aria-label={`Filter by size ${size}`}
-                />
-                <span className="text-sm font-medium">{size}</span>
-              </label>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Color Filter */}
-      <div>
-        <h3 className="text-sm font-medium mb-3">Variante</h3>
-        <div className="space-y-2">
-          {availableFilters.colors.map((colorName) => {
-            const isChecked = filters.color?.includes(colorName) || false;
-            return (
-              <label
-                key={colorName}
-                className={cn(
-                  "flex items-center gap-2 cursor-pointer",
-                  "hover:text-gray-900 transition-colors"
-                )}
-              >
-                <Checkbox
-                  checked={isChecked}
-                  onChange={() => toggleColor(colorName)}
-                  aria-label={`Filter by color ${colorName}`}
-                />
-                <span className="text-sm capitalize">{colorName}</span>
               </label>
             );
           })}

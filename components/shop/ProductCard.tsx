@@ -12,15 +12,20 @@ interface ProductCardProps {
   product: Product;
 }
 
+function formatWeight(sizes: string[]): string {
+  if (!sizes.length) return "";
+  return sizes.join(" · ");
+}
+
 export function ProductCard({ product }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [addedSize, setAddedSize] = useState<string | null>(null);
+  const [added, setAdded] = useState(false);
   const { addToCart } = useCart();
 
   const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
   const hasSecondImage = product.images.length > 1;
+  const weightText = formatWeight(product.sizes);
 
-  // Preload second image for instant swap
   useEffect(() => {
     if (hasSecondImage) {
       const img = new Image();
@@ -28,17 +33,18 @@ export function ProductCard({ product }: ProductCardProps) {
     }
   }, [product.images, hasSecondImage]);
 
-  // Handle quick add to cart with feedback
-  const handleQuickAdd = useCallback((e: React.MouseEvent, size: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const defaultColor = product.colors[0];
-    addToCart(product, size as any, defaultColor, 1);
-    setAddedSize(size);
-    setTimeout(() => setAddedSize(null), 1000);
-  }, [product, addToCart]);
+  const handleAddToCart = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!product.inStock || !product.sizes.length) return;
+      addToCart(product, product.sizes[0] as any, product.colors[0], 1);
+      setAdded(true);
+      setTimeout(() => setAdded(false), 1500);
+    },
+    [product, addToCart]
+  );
 
-  // Simple hover swap: main image → second image
   const displayImage = isHovered && hasSecondImage ? product.images[1] : product.images[0];
 
   return (
@@ -78,46 +84,58 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
 
-          {/* Quick size selector */}
-          {product.inStock && isHovered && (
-            <div className="absolute bottom-0 left-0 right-0 p-2 bg-white/95">
-              <div className="flex justify-center gap-0.5">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={(e) => handleQuickAdd(e, size)}
-                    className={cn(
-                      "w-8 h-7 text-xs font-medium transition-all",
-                      addedSize === size
-                        ? "bg-black text-white"
-                        : "hover:bg-black hover:text-white"
-                    )}
-                  >
-                    {addedSize === size ? <Check className="h-3 w-3 mx-auto" /> : size}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Product info */}
-        <div className="space-y-0.5">
-          <h3 className="font-medium text-gray-900 text-sm leading-tight">
-            {product.name}
-          </h3>
-          <div className="flex items-baseline gap-2">
-            <span className="font-semibold text-gray-900 text-sm">
-              ${product.price.toFixed(2)}
-            </span>
-            {hasDiscount && (
-              <span className="text-xs text-gray-500 line-through">
-                ${product.compareAtPrice!.toFixed(0)}
-              </span>
-            )}
-          </div>
-        </div>
+        <h3 className="font-medium text-gray-900 text-sm leading-tight">
+          {product.name}
+        </h3>
       </Link>
+
+      {weightText && (
+        <p className="text-xs text-gray-500 mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis" title={weightText}>
+          {weightText}
+        </p>
+      )}
+
+      <div className="flex items-baseline gap-2 mt-0.5">
+        <span className="font-semibold text-gray-900 text-sm">
+          ${product.price.toFixed(2)}
+        </span>
+        {hasDiscount && (
+          <span className="text-xs text-gray-500 line-through">
+            ${product.compareAtPrice!.toFixed(0)}
+          </span>
+        )}
+      </div>
+
+      {/* Add to cart: visible only on hover, with smooth transition */}
+      {product.inStock && product.sizes.length > 0 && (
+        <div
+          className={cn(
+            "overflow-hidden transition-all duration-200 ease-out",
+            isHovered ? "max-h-16 opacity-100 mt-3" : "max-h-0 opacity-0"
+          )}
+        >
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className={cn(
+              "w-full py-2 rounded-lg text-sm font-medium transition-colors",
+              "bg-gray-900 text-white hover:bg-gray-800",
+              "focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2",
+              added && "bg-green-700 hover:bg-green-700"
+            )}
+          >
+            {added ? (
+              <span className="inline-flex items-center justify-center gap-1.5">
+                <Check className="h-4 w-4" /> Agregado
+              </span>
+            ) : (
+              "Agregar al carrito"
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -19,27 +19,10 @@ const midpoint = Math.ceil(navItems.length / 2);
 const leftNavLinks = navItems.slice(0, midpoint);
 const rightNavLinks = navItems.slice(midpoint);
 
-// Scroll threshold in pixels
-const SCROLL_THRESHOLD = 50;
-
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-  const isHomepage = pathname === "/";
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
-    };
-
-    // Check initial scroll position
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Keyboard shortcut for search
   useEffect(() => {
@@ -54,9 +37,6 @@ export function Header() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // On non-homepage routes, always show the scrolled (solid) style
-  const showSolidHeader = !isHomepage || isScrolled;
-
   // Check if a nav link is active
   const isLinkActive = (href: string) => {
     if (href === "/catalogo") {
@@ -68,29 +48,23 @@ export function Header() {
   return (
     <>
       <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
-          showSolidHeader
-            ? "bg-white/70 backdrop-blur-sm border-gray-200"
-            : "bg-transparent border-transparent"
-        )}
+        className="fixed top-0 left-0 right-0 z-50 border-b bg-white/70 backdrop-blur-sm border-gray-200"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            {/* Logo */}
-            <Link
-              href="/"
-              className={cn(
-                "text-3xl font-bold tracking-tight outline-none transition-colors duration-300 hover:opacity-80",
-                showSolidHeader ? "text-black" : "text-white"
-              )}
-            >
-              {siteConfig.name}
-            </Link>
+          <div className="flex h-14 items-center">
+            {/* Logo - left */}
+            <div className="flex-1 flex items-center min-w-0">
+              <Link
+                href="/"
+                className="text-xl font-bold tracking-tight outline-none transition-colors duration-300 hover:opacity-80 truncate text-black"
+              >
+                {siteConfig.name}
+              </Link>
+            </div>
 
-            {/* Navigation - Desktop */}
-            <nav className="hidden lg:flex items-center gap-8">
-              {/* Left Links */}
+            {/* Navigation - Desktop: Catálogo + Envíos | Lupa | Contacto + Quiénes somos */}
+            <nav className="hidden lg:flex items-center justify-center gap-8 flex-shrink-0">
+              {/* Left: Catálogo, Envíos */}
               {leftNavLinks.map((link) => {
                 const isActive = isLinkActive(link.href);
                 return (
@@ -99,36 +73,24 @@ export function Header() {
                     href={link.href}
                     className={cn(
                       "text-sm font-medium transition-colors duration-300 outline-none relative",
-                      showSolidHeader
-                        ? isActive
+                      isActive
                           ? "text-black font-semibold"
                           : "text-gray-700 hover:text-black"
-                        : isActive
-                          ? "text-white font-semibold"
-                          : "text-white/90 hover:text-white"
                     )}
                   >
                     {link.label}
                     {isActive && (
-                      <span className={cn(
-                        "absolute -bottom-1 left-0 right-0 h-0.5 rounded-full",
-                        showSolidHeader ? "bg-black" : "bg-white"
-                      )} />
+                      <span className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-black" />
                     )}
                   </Link>
                 );
               })}
 
-              {/* Search Icon - Centered and Highlighted with animation */}
+              {/* Search Icon — centro, con efecto de pulso */}
               <button
                 onClick={() => setIsSearchOpen(true)}
-                aria-label="Search"
-                className={cn(
-                  "p-2 mx-4 outline-none transition-all duration-300 hover:scale-125 active:scale-95",
-                  showSolidHeader
-                    ? "text-black hover:text-gray-600"
-                    : "text-white hover:text-white/80"
-                )}
+                aria-label="Buscar"
+                className="p-2 mx-4 outline-none transition-all duration-300 hover:scale-125 active:scale-95 text-black hover:text-gray-600"
               >
                 <svg
                   className="w-7 h-7 animate-pulse"
@@ -145,7 +107,7 @@ export function Header() {
                 </svg>
               </button>
 
-              {/* Right Links */}
+              {/* Right: Contacto, Quiénes somos */}
               {rightNavLinks.map((link) => {
                 const isActive = isLinkActive(link.href);
                 return (
@@ -154,37 +116,29 @@ export function Header() {
                     href={link.href}
                     className={cn(
                       "text-sm font-medium transition-colors duration-300 outline-none relative",
-                      showSolidHeader
-                        ? isActive
+                      isActive
                           ? "text-black font-semibold"
                           : "text-gray-700 hover:text-black"
-                        : isActive
-                          ? "text-white font-semibold"
-                          : "text-white/90 hover:text-white"
                     )}
                   >
                     {link.label}
                     {isActive && (
-                      <span className={cn(
-                        "absolute -bottom-1 left-0 right-0 h-0.5 rounded-full",
-                        showSolidHeader ? "bg-black" : "bg-white"
-                      )} />
+                      <span className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-black" />
                     )}
                   </Link>
                 );
               })}
             </nav>
 
-            {/* Right side: Cart + Mobile menu */}
-            <div className="flex items-center gap-4">
+            {/* Right side: Cart + Mobile menu - same width as left for balance */}
+            <div className="flex-1 flex items-center justify-end gap-4">
               {/* Search Icon - Mobile/Tablet */}
               <button
                 onClick={() => setIsSearchOpen(true)}
                 className={cn(
-                  "lg:hidden p-2 outline-none transition-colors duration-300",
-                  showSolidHeader ? "text-black" : "text-white"
+                  "lg:hidden p-2 outline-none transition-colors duration-300 text-black"
                 )}
-                aria-label="Search"
+                aria-label="Buscar"
               >
                 <svg
                   className="w-5 h-5"
@@ -202,10 +156,7 @@ export function Header() {
               </button>
 
               {CartWidget && (
-                <div className={cn(
-                  "transition-colors duration-300",
-                  showSolidHeader ? "text-black" : "text-white"
-                )}>
+                <div className="transition-colors duration-300 text-black">
                   <CartWidget />
                 </div>
               )}
@@ -213,8 +164,7 @@ export function Header() {
               {/* Mobile menu button */}
               <button
                 className={cn(
-                  "lg:hidden p-2 outline-none transition-colors duration-300",
-                  showSolidHeader ? "text-black" : "text-white"
+                  "lg:hidden p-2 outline-none transition-colors duration-300 text-black"
                 )}
                 aria-label="Toggle menu"
                 aria-expanded={isMobileMenuOpen}

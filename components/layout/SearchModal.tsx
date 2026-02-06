@@ -14,12 +14,16 @@ interface SearchModalProps {
 
 type SearchCategory = "all" | "products" | "collections" | "pages";
 
-// Pages that can be searched
+// Páginas buscables
 const pages = [
   { name: "Catálogo", href: "/catalogo", description: "Ver todos los productos" },
   { name: "Envíos", href: "/envios", description: "Información de envíos" },
   { name: "Contacto", href: "/contacto", description: "Escribinos" },
+  { name: "Quiénes somos", href: "/quienes-somos", description: "Conocé nuestra historia" },
 ];
+
+// Sugerencias al abrir el buscador (categorías reales del catálogo)
+const suggestedSearches = collections.slice(0, 8).map((c) => c.name);
 
 export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [query, setQuery] = useState("");
@@ -171,7 +175,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search products, collections, pages..."
+                placeholder="Buscar productos, categorías, páginas..."
                 className="flex-1 text-lg outline-none placeholder:text-gray-400"
               />
 
@@ -199,9 +203,16 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
               )}
             </div>
 
-            {/* Category Filters */}
+            {/* Filtros por tipo */}
             <div className="flex gap-2 mt-4">
-              {(["all", "products", "collections", "pages"] as const).map((cat) => (
+              {(
+                [
+                  ["all", "Todo"],
+                  ["products", "Productos"],
+                  ["collections", "Categorías"],
+                  ["pages", "Páginas"],
+                ] as const
+              ).map(([cat, label]) => (
                 <button
                   key={cat}
                   onClick={() => setCategory(cat)}
@@ -212,7 +223,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   )}
                 >
-                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                  {label}
                 </button>
               ))}
             </div>
@@ -221,25 +232,25 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
           {/* Search Results */}
           <div className="max-h-[60vh] overflow-y-auto">
             {query === "" ? (
-              // Empty State - Show popular searches
+              // Estado inicial: sugerencias con categorías reales
               <div className="p-6">
-                <p className="text-sm text-gray-500 mb-4">Popular searches</p>
+                <p className="text-sm text-gray-500 mb-4">
+                  Podés buscar por producto o categoría
+                </p>
                 <div className="flex flex-wrap gap-2">
-                  {["Shirts", "Outerwear", "Accessories", "Basics"].map(
-                    (term) => (
-                      <button
-                        key={term}
-                        onClick={() => setQuery(term)}
-                        className="px-4 py-2 bg-gray-100 rounded-full text-sm hover:bg-gray-200 transition-colors"
-                      >
-                        {term}
-                      </button>
-                    )
-                  )}
+                  {suggestedSearches.map((term) => (
+                    <button
+                      key={term}
+                      onClick={() => setQuery(term)}
+                      className="px-4 py-2 bg-gray-100 rounded-full text-sm hover:bg-gray-200 transition-colors"
+                    >
+                      {term}
+                    </button>
+                  ))}
                 </div>
               </div>
             ) : !hasResults ? (
-              // No Results
+              // Sin resultados
               <div className="p-12 text-center">
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg
@@ -256,9 +267,9 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     />
                   </svg>
                 </div>
-                <p className="text-gray-900 font-medium">No results found</p>
+                <p className="text-gray-900 font-medium">No encontramos resultados</p>
                 <p className="text-gray-500 text-sm mt-1">
-                  Try searching for something else
+                  Probá con otras palabras o mirá el catálogo
                 </p>
               </div>
             ) : (
@@ -267,11 +278,11 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 {/* Products */}
                 {showProducts && filteredProducts.length > 0 && (
                   <div className="mb-6">
-                    <p className="text-sm text-gray-500 mb-3 px-2">Products</p>
+                    <p className="text-sm text-gray-500 mb-3 px-2">Productos</p>
                     <div className="space-y-1">
                       {filteredProducts.slice(0, 5).map((product) => {
-                        const imageUrl = product.images?.[0] || "/placeholder.jpg";
-                        const productName = product.name || "Product";
+                        const imageUrl = product.images?.[0] || "/placeholders/product.svg";
+                        const productName = product.name || "Producto";
                         const productPrice = typeof product.price === "number" ? product.price.toFixed(2) : "0.00";
                         const productSlug = product.slug || product.id;
 
@@ -329,11 +340,11 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 {/* Collections */}
                 {showCollections && filteredCollections.length > 0 && (
                   <div className="mb-6">
-                    <p className="text-sm text-gray-500 mb-3 px-2">Collections</p>
+                    <p className="text-sm text-gray-500 mb-3 px-2">Categorías</p>
                     <div className="space-y-1">
                       {filteredCollections.map((collection) => {
                         const collectionSlug = collection.slug || "";
-                        const collectionName = collection.name || "Collection";
+                        const collectionName = collection.name || "Categoría";
                         const collectionDesc = collection.description || "";
 
                         return (
@@ -446,7 +457,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 <kbd className="px-2 py-0.5 bg-white border border-gray-200 rounded text-xs">
                   ESC
                 </kbd>
-                to close
+                para cerrar
               </span>
             </div>
           </div>

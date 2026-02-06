@@ -1,17 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
-// ============================================
-// BRAND STORY SECTION — Edit copy for your brand
-// ============================================
-// This section appears on the homepage below featured products.
-// Customize the heading, body text, and CTA link.
-// Replace the gradient placeholder with a lifestyle image.
+const LIFESTYLE_IMAGE = "/brand/pedrosk-85.jpg";
 
 export function BrandStory() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -28,11 +24,15 @@ export function BrandStory() {
           {/* Image with parallax */}
           <motion.div
             style={{ y: imageY }}
-            className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300"
+            className="relative aspect-[4/5] overflow-hidden rounded-2xl"
           >
-            <div className="flex h-full items-center justify-center text-gray-400">
-              <span className="text-sm">Imagen de estilo de vida</span>
-            </div>
+            <Image
+              src={LIFESTYLE_IMAGE}
+              alt="Despensa Natural — alimentos naturales"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
           </motion.div>
 
           {/* Text */}
@@ -46,36 +46,22 @@ export function BrandStory() {
             >
               Nuestra filosofía
             </motion.p>
-            <motion.h2
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="mb-6 text-3xl font-bold tracking-tight sm:text-4xl"
-            >
-              Menos ruido.
-              <br />
-              Más sustancia.
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mb-4 text-lg leading-relaxed text-gray-600"
-            >
-              Creemos que los mejores productos no necesitan gritar. Ingredientes
-              simples, sin ultraprocesados, con el cuidado que se nota.
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
               className="mb-8 text-lg leading-relaxed text-gray-600"
             >
-              Materia prima de calidad, procesos transparentes y un compromiso
-              con lo natural que se siente desde el primer bocado.
+              Menos microplasticos.
+              <br />
+              Más popa.
+              <br />
+              <br />
+              Hola, si queres un matesito de estos te doy. Ta medio lavadito ya.
+              <br />
+              <br />
+              En la bolsitas de carne desecada, tenemos coqui! Te llevas unas buenas lemon orange, bien sati pa tomar unos matesi y quedar re loli!
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
