@@ -1,86 +1,74 @@
 // ============================================
-// SITE CONFIGURATION — Edit this file to rebrand
+// SITE CONFIGURATION — Despensa Natural
 // ============================================
-// This is the single source of truth for your site's
-// identity, navigation, social links, and contact info.
-// Change these values first when starting a new project.
 
 export const siteConfig = {
   // ── Brand ──────────────────────────────────────
-  name: "Starter Template",
-  shortName: "Starter",
+  name: "Despensa Natural",
+  shortName: "Despensa Natural",
   description:
-    "A modern, production-ready Next.js starter template for portfolios, business sites, and e-commerce stores.",
-  tagline: "Build something great.",
+    "Alimentos reales sin ultraprocesados, con ingredientes simples y naturales.",
+  tagline:
+    "Alimentos reales sin ultraprocesados, con ingredientes simples y naturales.",
 
   // ── URLs ───────────────────────────────────────
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
   ogImage: "/og-image.png",
 
   // ── Contact ────────────────────────────────────
-  email: "hello@example.com",
-  location: "Your City, Country",
-  responseTime: "Within 24 hours",
+  email: "hola@despensanatural.com",
+  location: "Montevideo, Uruguay",
+  responseTime: "En el día",
 
   // ── Social Links (set to "" to hide) ───────────
   social: {
-    twitter: "https://twitter.com/yourhandle",
-    instagram: "https://instagram.com/yourhandle",
-    github: "https://github.com/yourhandle",
+    twitter: "",
+    instagram: "https://instagram.com/despensanatural",
+    github: "",
     linkedin: "",
+    whatsapp: "https://wa.me/59899123456",
   },
 
   // ── Navigation ─────────────────────────────────
-  // Modify these arrays to change what appears in the header/footer.
-  // For a portfolio site, you might use:
-  //   { href: "/projects", label: "Projects" }
-  // For a store:
-  //   { href: "/shop", label: "Shop" }
   mainNav: [
-    { href: "/shop", label: "Shop" },
-    { href: "/collections", label: "Collections" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/catalogo", label: "Catálogo" },
+    { href: "/envios", label: "Envíos" },
+    { href: "/contacto", label: "Contacto" },
   ],
 
   footerNav: {
-    shop: [{ href: "/shop", label: "All Products" }],
+    shop: [{ href: "/catalogo", label: "Catálogo" }],
     company: [
-      { href: "/about", label: "About" },
-      { href: "/contact", label: "Contact" },
-      { href: "/shipping", label: "Shipping" },
+      { href: "/envios", label: "Envíos" },
+      { href: "/contacto", label: "Contacto" },
     ],
   },
 
   // ── SEO / Metadata ─────────────────────────────
   keywords: [
-    "starter template",
-    "next.js",
-    "react",
-    "tailwind css",
-    "e-commerce",
-    "portfolio",
+    "despensa natural",
+    "alimentos naturales",
+    "granola",
+    "miel",
+    "frutos secos",
+    "snacks saludables",
+    "Uruguay",
   ],
-  authors: [{ name: "Your Name" }],
-  locale: "en_US",
+  authors: [{ name: "Despensa Natural" }],
+  locale: "es_UY",
 
   // ── Announcement Bar ───────────────────────────
-  // Set to "" to hide the announcement bar.
-  announcement: "Free shipping on orders over $100",
+  announcement: "Envíos en Montevideo y alrededores. Consultá por tu pedido.",
 
   // ── Feature Flags ──────────────────────────────
-  // Toggle major site sections on/off.
-  // When disabled, related nav links, sitemap entries,
-  // and layout providers are excluded automatically.
   features: {
-    store: true, // Shop pages, cart, product catalog
-    waitlist: true, // Newsletter / waitlist signup form
-    portfolio: false, // Portfolio / projects section
+    store: true,
+    waitlist: false,
+    portfolio: false,
   },
 
   // ── Store Settings ─────────────────────────────
-  // Currency symbol used in product displays.
-  currency: "USD",
+  currency: "UYU",
   currencySymbol: "$",
 } as const;
 

@@ -1,4 +1,4 @@
-import { products, getProductBySlug } from "@/data/products";
+import { products, getProductBySlug } from "@/data/despensaNatural";
 import type { Product } from "@/lib/types/product";
 
 export async function getProduct(slug: string): Promise<Product | null> {
