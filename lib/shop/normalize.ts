@@ -11,13 +11,14 @@ export function parseFiltersFromSearchParams(
     filters.category = category.split(",").filter(Boolean);
   }
 
-  // Size
+  // Size (accept any variant label, e.g. "500 g", "1 kg")
   const size = searchParams.get("size");
   if (size) {
-    const sizes = size.split(",").filter(Boolean) as Size[];
-    // Validate sizes
-    const validSizes: Size[] = ["XS", "S", "M", "L", "XL", "One Size"];
-    filters.size = sizes.filter((s) => validSizes.includes(s));
+    const sizes = size
+      .split(",")
+      .map((s) => decodeURIComponent(s.trim()))
+      .filter(Boolean) as Size[];
+    filters.size = sizes;
   }
 
   // Color

@@ -8,9 +8,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { Size } from "@/lib/types/product";
-
-const SIZES: Size[] = ["S", "M", "L", "XL", "One Size"];
 
 export function FilterPanel() {
   const {
@@ -29,7 +26,7 @@ export function FilterPanel() {
     [allProducts]
   );
 
-  const sizes = SIZES;
+  const sizes = availableFilters.sizes;
 
   return (
     <aside className="w-full md:w-64 space-y-6">
