@@ -108,12 +108,13 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
       </div>
 
-      {/* Add to cart: visible only on hover, with smooth transition */}
+      {/* Add to cart: on mobile always visible; on desktop only on hover */}
       {product.inStock && product.sizes.length > 0 && (
         <div
           className={cn(
             "overflow-hidden transition-all duration-200 ease-out",
-            isHovered ? "max-h-16 opacity-100 mt-3" : "max-h-0 opacity-0"
+            "max-md:max-h-16 max-md:opacity-100 max-md:mt-3",
+            isHovered ? "md:max-h-16 md:opacity-100 md:mt-3" : "md:max-h-0 md:opacity-0"
           )}
         >
           <button

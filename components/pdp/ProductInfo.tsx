@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import type { Product, Size, Color } from "@/lib/types/product";
+import type { Product, Color } from "@/lib/types/product";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { cn } from "@/lib/utils";
-import { SizeGuide } from "@/components/pdp/SizeGuide";
 
 interface ProductInfoProps {
   product: Product;
@@ -15,34 +14,32 @@ interface ProductInfoProps {
 export function ProductInfo({ product }: ProductInfoProps) {
   const { addToCart } = useCart();
   const toast = useToast();
-  const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [selectedColor, setSelectedColor] = useState<Color | null>(
     product.colors[0] || null
   );
 
   const hasDiscount =
     product.compareAtPrice && product.compareAtPrice > product.price;
-
-  const handleSizeSelect = useCallback((size: Size) => {
-    setSelectedSize(size);
-  }, []);
+  const weightText = product.sizes.length > 0 ? product.sizes.join(" · ") : "";
 
   const handleColorSelect = useCallback((color: Color) => {
     setSelectedColor(color);
   }, []);
 
   const handleAddToCart = useCallback(() => {
-    if (!selectedSize || !selectedColor) {
-      toast.error("Elegí tamaño y variante");
+    const color = selectedColor || product.colors[0];
+    const size = product.sizes[0];
+    if (!size || !color) {
+      toast.error("No se puede agregar al carrito");
       return;
     }
     if (!product.inStock) {
       window.dispatchEvent(new CustomEvent("open-waitlist-modal"));
       return;
     }
-    addToCart(product, selectedSize, selectedColor, 1);
-    toast.success(`${product.name} (${selectedSize}, ${selectedColor.name}) added to cart`);
-  }, [product, selectedSize, selectedColor, addToCart, toast]);
+    addToCart(product, size, color, 1);
+    toast.success(`${product.name} agregado al carrito`);
+  }, [product, selectedColor, addToCart, toast]);
 
   return (
     <div className="space-y-6">
@@ -74,39 +71,10 @@ export function ProductInfo({ product }: ProductInfoProps) {
         <p className="text-gray-600 leading-relaxed">{product.description}</p>
       </div>
 
-      {/* Size Selection */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <label className="text-sm font-medium">
-            Size {selectedSize && `- ${selectedSize}`}
-          </label>
-          <SizeGuide />
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {product.sizes.map((size) => {
-            const isSelected = selectedSize === size;
-            return (
-              <button
-                key={size}
-                onClick={() => handleSizeSelect(size)}
-                disabled={!product.inStock}
-                className={cn(
-                  "w-12 h-12 border rounded-md font-medium text-sm transition-colors",
-                  "focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2",
-                  isSelected
-                    ? "border-black bg-black text-white"
-                    : "border-gray-300 hover:border-gray-900",
-                  !product.inStock && "opacity-50 cursor-not-allowed"
-                )}
-                aria-label={`Elegir tamaño ${size}`}
-                aria-pressed={isSelected}
-              >
-                {size}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {/* Weight (plain text only) */}
+      {weightText && (
+        <p className="text-sm text-gray-600">{weightText}</p>
+      )}
 
       {/* Color Selection */}
       {product.colors.length > 1 && (
@@ -147,11 +115,10 @@ export function ProductInfo({ product }: ProductInfoProps) {
         {product.inStock ? (
           <Button
             onClick={handleAddToCart}
-            disabled={!selectedSize}
             className="w-full"
             size="lg"
           >
-            Add to Cart
+            Agregar al carrito
           </Button>
         ) : (
           <Button
@@ -162,7 +129,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
             className="w-full"
             size="lg"
           >
-            Notify Me When Available
+            Avisame cuando haya stock
           </Button>
         )}
       </div>
