@@ -52,12 +52,13 @@ export function ProductCard({ product }: ProductCardProps) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link
-        href={`/producto/${product.slug}`}
-        className="group block"
-      >
-        <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-100 mb-3">
-          {/* Image - instant swap on hover */}
+      {/* Image area: link layer + button overlay on bottom */}
+      <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-100 mb-3">
+        <Link
+          href={`/producto/${product.slug}`}
+          className="absolute inset-0 z-0 block"
+          aria-label={product.name}
+        >
           <ProductImage
             src={displayImage}
             alt={product.name}
@@ -67,15 +68,11 @@ export function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             loading="lazy"
           />
-
-          {/* Discount badge */}
           {hasDiscount && (
             <div className="absolute top-2 right-2 bg-black text-white text-xs font-bold px-2 py-1 rounded-full">
               -{Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100)}%
             </div>
           )}
-
-          {/* Out of stock overlay */}
           {!product.inStock && (
             <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center">
               <span className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
@@ -83,9 +80,40 @@ export function ProductCard({ product }: ProductCardProps) {
               </span>
             </div>
           )}
+        </Link>
 
-        </div>
+        {/* Add to cart: overlaid at bottom of image; mobile always visible, desktop on hover */}
+        {product.inStock && product.sizes.length > 0 && (
+          <div
+            className={cn(
+              "absolute bottom-0 left-0 right-0 z-10 p-2 transition-all duration-200 ease-out",
+              "max-md:opacity-100",
+              isHovered ? "md:opacity-100 md:translate-y-0" : "md:opacity-0 md:translate-y-2"
+            )}
+          >
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className={cn(
+                "w-full py-2 rounded-lg text-sm font-medium transition-colors shadow-lg",
+                "bg-gray-900 text-white hover:bg-gray-800",
+                "focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900",
+                added && "bg-green-700 hover:bg-green-700"
+              )}
+            >
+              {added ? (
+                <span className="inline-flex items-center justify-center gap-1.5">
+                  <Check className="h-4 w-4" /> Agregado
+                </span>
+              ) : (
+                "Agregar al carrito"
+              )}
+            </button>
+          </div>
+        )}
+      </div>
 
+      <Link href={`/producto/${product.slug}`} className="group block">
         <h3 className="font-medium text-gray-900 text-sm leading-tight">
           {product.name}
         </h3>
@@ -107,36 +135,6 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
         )}
       </div>
-
-      {/* Add to cart: on mobile always visible; on desktop only on hover */}
-      {product.inStock && product.sizes.length > 0 && (
-        <div
-          className={cn(
-            "overflow-hidden transition-all duration-200 ease-out",
-            "max-md:max-h-16 max-md:opacity-100 max-md:mt-3",
-            isHovered ? "md:max-h-16 md:opacity-100 md:mt-3" : "md:max-h-0 md:opacity-0"
-          )}
-        >
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className={cn(
-              "w-full py-2 rounded-lg text-sm font-medium transition-colors",
-              "bg-gray-900 text-white hover:bg-gray-800",
-              "focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2",
-              added && "bg-green-700 hover:bg-green-700"
-            )}
-          >
-            {added ? (
-              <span className="inline-flex items-center justify-center gap-1.5">
-                <Check className="h-4 w-4" /> Agregado
-              </span>
-            ) : (
-              "Agregar al carrito"
-            )}
-          </button>
-        </div>
-      )}
     </div>
   );
 }
