@@ -12,21 +12,22 @@ export const siteConfig = {
     "Alimentos reales sin ultraprocesados, con ingredientes simples y naturales.",
 
   // ── URLs ───────────────────────────────────────
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://despensanatural.com",
   ogImage: "/og-image.png",
 
   // ── Contact ────────────────────────────────────
-  email: "hola@despensanatural.com",
-  location: "Montevideo, Uruguay",
+  email: "despensanatural9@gmail.com",
+  location: "Jardines de Carrasco, Montevideo, Uruguay",
   responseTime: "En el día",
 
   // ── Social Links (set to "" to hide) ───────────
   social: {
     twitter: "",
-    instagram: "https://instagram.com/despensanatural",
+    instagram:
+      "https://www.instagram.com/despensanaturaluy?igsh=a3o1NHlubG1pdGc2",
     github: "",
     linkedin: "",
-    whatsapp: "https://wa.me/59899123456",
+    whatsapp: "https://wa.me/59899426168",
   },
 
   // ── Navigation ─────────────────────────────────

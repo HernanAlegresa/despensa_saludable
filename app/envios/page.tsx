@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Truck, Package, MapPin, Clock } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
@@ -12,57 +13,52 @@ const deliveryOptions = [
     method: "Retiro en punto",
     time: "Coordinado por WhatsApp",
     price: "Sin costo",
-    note: "Consultá horarios y dirección por WhatsApp.",
+    note: "Punto de retiro en Jardines de Carrasco (Ricardo Areco 7530).",
   },
   {
-    method: "Envío Montevideo",
-    time: "24–48 h hábiles",
-    price: "Consultar",
-    note: "Zonas cubiertas según disponibilidad.",
-  },
-  {
-    method: "Envío interior",
-    time: "A coordinar",
-    price: "Consultar",
-    note: "Consultar por tu localidad.",
+    method: "Envío Montevideo y alrededores",
+    time: "Miércoles y viernes",
+    price: "Mayor a $1000: gratis\nMenor a $1000: $80",
+    note: "Envío gratis en compras mayores a $1000.",
   },
 ];
 
 const policies = [
   {
     icon: Truck,
-    title: "Retiro y envío",
+    title: "Días de envío",
     description:
-      "Coordinamos retiro en punto o envío por Montevideo y alrededores. Escribinos por WhatsApp para confirmar zona y costo.",
+      "Realizamos envíos los miércoles y viernes. Coordinamos el horario exacto por WhatsApp.",
   },
   {
     icon: Package,
-    title: "Embalaje",
+    title: "Costo de envío",
     description:
-      "Productos envasados con cuidado. Pedidos listos en 24–48 h hábiles una vez confirmado.",
+      "Envío sin costo en compras mayores a $1000. En compras menores a $1000, el costo es de $80.",
   },
   {
     icon: MapPin,
     title: "Zona de cobertura",
     description:
-      "Montevideo y zona metropolitana. Para otras localidades consultá por WhatsApp.",
+      "Enviamos dentro de Montevideo y alrededores, según las zonas indicadas en el mapa de envíos.",
   },
   {
     icon: Clock,
-    title: "Horarios",
+    title: "Retiro",
     description:
-      "Atención por WhatsApp en horario laboral. Los pedidos se preparan de lunes a viernes.",
+      "También podés coordinar retiro en Jardines de Carrasco (Ricardo Areco 7530) escribiéndonos por WhatsApp.",
   },
 ];
 
 export default function EnviosPage() {
-  const mapUrl = "https://www.google.com/maps"; // Reemplazar con link real si aplica
+  const mapUrl =
+    "https://www.google.com/maps/d/u/0/viewer?hl=es&mid=10JPa-vk5603TAEtLW6l_4j62jq7ndkY&ll=-34.85978151803106%2C-56.06025847526988&z=12";
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-4 pt-24 pb-16">
       <div className="mx-auto max-w-4xl">
         <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             Envíos
           </h1>
           <p className="mt-4 text-lg text-gray-600">
@@ -71,7 +67,7 @@ export default function EnviosPage() {
         </div>
 
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold">Opciones de entrega</h2>
+          <h2 className="mb-6 text-2xl font-bold font-display">Opciones de entrega</h2>
           <div className="overflow-hidden rounded-lg border border-gray-200">
             <table className="w-full">
               <thead>
@@ -102,7 +98,14 @@ export default function EnviosPage() {
                       {opt.time}
                     </td>
                     <td className="px-4 py-4 text-sm font-medium sm:px-6">
-                      {opt.price}
+                      {opt.price.split("\n").map((line, index) => (
+                        <p
+                          key={index}
+                          className={index === 0 ? undefined : "mt-0.5"}
+                        >
+                          {line}
+                        </p>
+                      ))}
                     </td>
                   </tr>
                 ))}
@@ -112,7 +115,7 @@ export default function EnviosPage() {
         </section>
 
         <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold">Información útil</h2>
+          <h2 className="mb-6 text-2xl font-bold font-display">Información útil</h2>
           <div className="grid gap-6 sm:grid-cols-2">
             {policies.map((policy) => (
               <div
@@ -130,20 +133,42 @@ export default function EnviosPage() {
         </section>
 
         <section>
-          <h2 className="mb-4 text-2xl font-bold">Ubicación</h2>
-          <p className="text-gray-600 mb-4">
-            {siteConfig.location}. Consultá dirección exacta de retiro por
-            WhatsApp.
+          <h2 className="mb-4 text-2xl font-bold font-display">
+            Ubicación y zonas de envío
+          </h2>
+          <p className="mb-4 text-gray-600">
+            Podés coordinar el retiro de tu pedido por WhatsApp. El punto de
+            retiro está en Jardines de Carrasco, en Ricardo Areco 7530.
+          </p>
+          <p className="mb-4 text-gray-600">
+            Para las entregas a domicilio, consultá las zonas de envío en el{" "}
+            <a
+              href={mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-gray-900 underline underline-offset-2 hover:no-underline"
+            >
+              mapa de envíos
+            </a>{" "}
+            interactivo.
           </p>
           <a
             href={mapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-black font-medium underline hover:no-underline"
+            className="mb-4 inline-flex items-center gap-2 text-black font-medium underline hover:no-underline"
           >
             <MapPin className="h-4 w-4" />
-            Ver en mapa
+            Ver zonas de envío en el mapa
           </a>
+          <div className="relative mt-4 aspect-video w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+            <Image
+              src="/envios/mapa-zonas-envio.jpg"
+              alt="Mapa de zonas de envío de Despensa Natural en Montevideo y alrededores"
+              fill
+              className="h-full w-full object-cover"
+            />
+          </div>
         </section>
       </div>
     </div>

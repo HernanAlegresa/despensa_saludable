@@ -142,7 +142,7 @@ export function CategoryShowcase() {
   ];
 
   return (
-    <section id="collection-showcase" className="relative pt-4 pb-8 sm:pt-6 sm:pb-10 bg-white">
+    <section id="collection-showcase" className="relative border-0 pt-4 pb-8 sm:pt-6 sm:pb-10 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
           <h2 className="text-xl font-semibold tracking-tight">

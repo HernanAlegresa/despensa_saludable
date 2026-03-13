@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
@@ -10,9 +11,27 @@ import { BackToTop } from "@/components/ui/back-to-top";
 // import { PreviewBanner } from "@/components/layout/PreviewBanner"; // Uncomment if you need a preview/coming-soon popup
 import { siteConfig } from "@/config/site";
 
+const onest = localFont({
+  src: "../public/fonts/Onest-Regular.ttf",
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const cooper = localFont({
+  src: "../public/fonts/CooperLtBT-Regular.ttf",
+  variable: "--font-display",
+  display: "swap",
+});
+
+const justMe = localFont({
+  src: "../public/fonts/JustMeAgainDownHere-Regular.ttf",
+  variable: "--font-hand",
+  display: "swap",
+});
+
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-header",
   display: "swap",
 });
 
@@ -56,7 +75,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html
+      lang="en"
+      className={`${onest.variable} ${cooper.variable} ${justMe.variable} ${inter.variable}`}
+    >
       <body className="flex min-h-screen flex-col font-sans antialiased">
         <CartProvider>
           <ToastProvider>

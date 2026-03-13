@@ -1,0 +1,8 @@
+Fonts for Despensa Natural brand.
+
+Place the following files in this folder:
+- CooperLtBT-Regular.ttf
+- Onest-Regular.ttf
+- JustMeAgainDownHere.ttf
+
+These are loaded via next/font/local from /fonts/*.ttf

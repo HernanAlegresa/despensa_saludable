@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -47,96 +48,103 @@ export function Header() {
 
   return (
     <>
-      <header
-        className="fixed top-0 left-0 right-0 z-50 border-b bg-white/70 backdrop-blur-sm border-gray-200"
-      >
+      <header className="fixed top-0 left-0 right-0 z-50 border-b bg-white/80 backdrop-blur-sm border-gray-200 font-header font-bold">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-14 items-center">
+          <div className="relative flex h-16 items-center">
             {/* Logo - left */}
-            <div className="flex-1 flex items-center min-w-0">
+            <div className="flex items-center min-w-0">
               <Link
                 href="/"
-                className="text-xl font-bold tracking-tight outline-none transition-colors duration-300 hover:opacity-80 truncate text-black"
+                className="flex items-center gap-2 outline-none transition-opacity duration-300 hover:opacity-80"
               >
-                {siteConfig.name}
+                <Image
+                  src="/logo/logo_sinfondo.png"
+                  alt="Despensa Natural — logo"
+                  width={260}
+                  height={50}
+                  className="h-16 w-auto"
+                  priority
+                />
               </Link>
             </div>
 
-            {/* Navigation - Desktop: Catálogo + Envíos | Lupa | Contacto + Quiénes somos */}
-            <nav className="hidden lg:flex items-center justify-center gap-8 flex-shrink-0">
+            {/* Navigation - Desktop: centrada respecto al contenido */}
+            <nav className="pointer-events-none absolute left-1/2 top-1/2 hidden w-full max-w-3xl -translate-x-1/2 -translate-y-1/2 lg:grid grid-cols-[1fr_auto_1fr] items-center px-6">
               {/* Left: Catálogo, Envíos */}
-              {leftNavLinks.map((link) => {
-                const isActive = isLinkActive(link.href);
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "text-sm font-medium transition-colors duration-300 outline-none relative",
-                      isActive
-                          ? "text-black font-semibold"
-                          : "text-gray-700 hover:text-black"
-                    )}
-                  >
-                    {link.label}
-                    {isActive && (
-                      <span className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-black" />
-                    )}
-                  </Link>
-                );
-              })}
+              <div className="pointer-events-auto flex justify-end gap-10">
+                {leftNavLinks.map((link) => {
+                  const isActive = isLinkActive(link.href);
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "text-[0.95rem] font-medium transition-colors duration-300 outline-none relative text-black hover:text-black/80",
+                        isActive && "font-semibold"
+                      )}
+                    >
+                      {link.label}
+                      {isActive && (
+                        <span className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-black" />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
 
-              {/* Search Icon — centro, con efecto de pulso */}
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                aria-label="Buscar"
-                className="p-2 mx-4 outline-none transition-all duration-300 hover:scale-125 active:scale-95 text-black hover:text-gray-600"
-              >
-                <svg
-                  className="w-7 h-7 animate-pulse"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={3}
-                  viewBox="0 0 24 24"
+              {/* Centro: lupa alineada con el eje del contenido */}
+              <div className="flex justify-center px-6">
+                <button
+                  onClick={() => setIsSearchOpen(true)}
+                  aria-label="Buscar"
+                  className="pointer-events-auto p-2 outline-none transition-all duration-300 hover:scale-125 active:scale-95 text-primary hover:text-primary/80"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="h-7 w-7 animate-pulse"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={3}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
 
               {/* Right: Contacto, Quiénes somos */}
-              {rightNavLinks.map((link) => {
-                const isActive = isLinkActive(link.href);
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "text-sm font-medium transition-colors duration-300 outline-none relative",
-                      isActive
-                          ? "text-black font-semibold"
-                          : "text-gray-700 hover:text-black"
-                    )}
-                  >
-                    {link.label}
-                    {isActive && (
-                      <span className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-black" />
-                    )}
-                  </Link>
-                );
-              })}
+              <div className="pointer-events-auto flex justify-start gap-10">
+                {rightNavLinks.map((link) => {
+                  const isActive = isLinkActive(link.href);
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "text-[0.95rem] font-medium transition-colors duration-300 outline-none relative text-black hover:text-black/80",
+                        isActive && "font-semibold"
+                      )}
+                    >
+                      {link.label}
+                      {isActive && (
+                        <span className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-black" />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
             </nav>
 
-            {/* Right side: Cart + Mobile menu - same width as left for balance */}
-            <div className="flex-1 flex items-center justify-end gap-4">
+            {/* Right side: Cart + Mobile menu */}
+            <div className="ml-auto flex items-center justify-end gap-4">
               {/* Search Icon - Mobile/Tablet */}
               <button
                 onClick={() => setIsSearchOpen(true)}
                 className={cn(
-                  "lg:hidden p-2 outline-none transition-colors duration-300 text-black"
+                  "lg:hidden p-2 outline-none transition-colors duration-300 text-primary"
                 )}
                 aria-label="Buscar"
               >
@@ -156,7 +164,7 @@ export function Header() {
               </button>
 
               {CartWidget && (
-                <div className="transition-colors duration-300 text-black">
+                <div className="transition-colors duration-300 text-primary">
                   <CartWidget />
                 </div>
               )}
@@ -164,7 +172,7 @@ export function Header() {
               {/* Mobile menu button */}
               <button
                 className={cn(
-                  "lg:hidden p-2 outline-none transition-colors duration-300 text-black"
+                  "lg:hidden p-2 outline-none transition-colors duration-300 text-primary"
                 )}
                 aria-label="Toggle menu"
                 aria-expanded={isMobileMenuOpen}

@@ -16,7 +16,7 @@ interface CartDrawerProps {
   onClose: () => void;
 }
 
-const FREE_SHIPPING_THRESHOLD = 100;
+const FREE_SHIPPING_THRESHOLD = 1000;
 
 function buildWhatsAppMessage(cart: { items: { product: { name: string; price: number }; size: string; color: { name: string }; quantity: number }[]; total: number }): string {
   const lines = ["Hola! Me gustaría hacer un pedido:", ""];
@@ -330,7 +330,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       {amountToFreeShipping <= 0 ? (
                         <span className="text-green-600">Sin costo</span>
                       ) : (
-                        <span className="text-gray-500">Consultar</span>
+                        <span className="text-gray-600">$80</span>
                       )}
                     </span>
                   </div>

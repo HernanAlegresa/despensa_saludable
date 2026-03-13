@@ -45,7 +45,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
     <div className="space-y-6">
       {/* Title and Price */}
       <div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-2">{product.name}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-2 font-display">
+          {product.name}
+        </h1>
         <div className="flex items-center gap-3 mb-4">
           <span className="text-3xl font-semibold">
             ${product.price.toFixed(0)}
